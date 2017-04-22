@@ -1,6 +1,5 @@
 import http from 'http'
 import express from 'express'
-import mongoose from 'mongoose'
 import Promise from 'bluebird'
 import config from './config'
 import routes from './routes'
@@ -15,13 +14,6 @@ app.server = http.createServer(app)
 app.use(cors({
 	exposedHeaders: config.corsHeaders
 }));
-
-// Connect to MongoDB
-mongoose.Promise = Promise
-mongoose.connect(config.db, { server: { socketOptions: { keepAlive: 1} } })
-mongoose.connection.on('error', () => {
-  throw new Error(`Unable to connect to database: ${config.db}`)
-})
 
 // Body Parser
 app.use(bodyParser.json())
