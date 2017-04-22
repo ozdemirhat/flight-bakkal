@@ -1,16 +1,20 @@
 import express from 'express'
+import {Bot, Elements} from 'facebook-messenger-bot'
 
 const router = express.Router()
 
-router.get('/webhook', function(req, res) {
-  if (req.query['hub.mode'] === 'subscribe' &&
-      req.query['hub.verify_token'] === 'flight-bakkal-verify-token') {
-    console.log("Validating webhook");
-    res.status(200).send(req.query['hub.challenge']);
-  } else {
-    console.error("Failed validation. Make sure the validation tokens match.");
-    res.sendStatus(403);
-  }
+const bot = new Bot(config.PAGE_ACCESS_TOKEN, config.LOCAL_SHAKE);
+
+bot.on('message', async message => {
+    const {sender} = message;
+    await sender.fetch('first_name');
+
+    const out = new Elements();
+    out.add({text: `hey ${sender.first_name}, how are you!`});
+
+    await bot.send(sender.id, out);
 });
+
+router.get('/webhook', bot.router());
 
 export default router

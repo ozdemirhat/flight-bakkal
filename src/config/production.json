@@ -1,4 +1,4 @@
 {
-  "jwt_secret": "0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
-  "corsHeaders": []
+  "PAGE_ACCESS_TOKEN": "EAAF27nTptBYBAEJwt5ZBWGgvMbCOsLrnzpcUMmFLzPMLnfBNz83ZCMkmPc9TTYyMxiDLSrZB3O0X4cbH8RAo8ZC9AFIisoIXiLrA0UwMA9CPzgNJ5l6ZBq5xqZA424bEZAshZAh2YMnV5YujmeWpsb3bOa4iZAybVVrnXvry7BicvTwZDZD",
+  "LOCAL_SHAKE": "flight-bakkal-verify-token"
 }
