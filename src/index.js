@@ -32,7 +32,7 @@ app.use('/', routes)
 // API Error Handler
 app.use(ErrorHandler)
 
-app.server.listen(process.env.PORT || 3000)
+app.server.listen(process.env.PORT || 80)
 console.log(`Started on port ${app.server.address().port}`)
 
 export default app
