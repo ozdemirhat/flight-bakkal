@@ -20,7 +20,7 @@ bot.on('message', async message => {
     await Bot.wait(1000);
 
     // ---- send image
-    const out = new Elements();
+    out = new Elements();
     out.add({image: 'https://developers.facebook.com/images/devsite/fb4d_logo-2x.png'});
     await bot.send(sender.id, out);
 
