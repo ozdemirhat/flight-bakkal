@@ -1,4 +1,5 @@
 import express from 'express'
+import config from '../config'
 import {Bot, Elements} from 'facebook-messenger-bot'
 
 const router = express.Router()
