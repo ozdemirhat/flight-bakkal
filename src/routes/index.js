@@ -16,6 +16,6 @@ bot.on('message', async message => {
     await bot.send(sender.id, out);
 });
 
-router.get('/webhook', bot.router());
+router.use('/webhook', bot.router());
 
 export default router
