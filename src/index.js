@@ -2,27 +2,18 @@ import http from 'http'
 import express from 'express'
 import Promise from 'bluebird'
 import config from './config'
-import routes from './routes'
+import bot from './bot'
 import bodyParser from 'body-parser'
-import ErrorHandler from './helpers/error-handler'
-import cors from 'cors'
 
 
 let app = express()
 app.server = http.createServer(app)
 
-app.use(cors({
-	exposedHeaders: config.corsHeaders
-}));
-
 // Body Parser
 app.use(bodyParser.json())
-//
-// Mount all routes
-app.use('/', routes)
 
-// API Error Handler
-app.use(ErrorHandler)
+// Mount the bot
+app.use('/webhook', bot.router())
 
 app.server.listen(process.env.PORT || 5000)
 console.log(`Started on port ${app.server.address().port}`)

@@ -26,6 +26,7 @@
     "facebook-messenger-bot": "0.2.0",
     "http-errors": "^1.5.1",
     "http-status": "^0.2.5",
+    "ioredis": "^2.5.0",
     "joi": "^9.0.4",
     "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.7.7",
