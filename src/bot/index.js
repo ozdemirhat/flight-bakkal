@@ -99,7 +99,7 @@ bot.on('message', async (message) => {
 
   if (data[0]) {
     await sendMessage("Here is our recommendations: (Type reset to start again)")
-    for (var i = 0, len = data.length; i ++){
+    for (var i = 0; len = data.length; i ++){
       if (data[i].segmentsIn && data[i].segmentsOut) sendMessage("Roundtrip Ticket\n Airports: ", data[i].segmentsOut.departAirport.name)
       else if (data[i].segmentsOut) sendMessage("Departure Ticket\n")
       else sendMessage("Return Ticket\n")
