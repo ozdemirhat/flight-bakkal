@@ -40,12 +40,19 @@ const searchCache = (country, currency, locale, originPlace, destinationPlace, o
 
   return request(url).then((body) => {
     let data = JSON.parse(body);
-    //console.log(data)
+    console.log(data)
 
     let toReturn = data.Quotes.map((quote) => {
-
-      let segments = [quote.OutboundLeg, quote.InboundLeg].map((segment, index) => {
-
+      console.log(quote)
+      //let segments = [quote.OutboundLeg, quote.InboundLeg].map((segment, index) => {
+      var segmentsOut
+      if (quote.OutboundLeg){
+        segmentsOut = [quote.OutboundLeg].map((segment, index) => {
+        //console.log(segment)
+        if (segment === undefined){
+          console.log("undefined")
+          return {}
+        }
         let departPlace = _.filter(data.Places, {
           PlaceId: segment.OriginId
         })[0];
@@ -57,7 +64,7 @@ const searchCache = (country, currency, locale, originPlace, destinationPlace, o
         let carriers = segment.CarrierIds.map(c => _.filter(data.Carriers, {
           CarrierId: c
         })[0].Name);
-
+        //return data
         return {
           group: index + 1,
           departAirport: {
@@ -80,11 +87,56 @@ const searchCache = (country, currency, locale, originPlace, destinationPlace, o
           carriers: carriers
         };
       });
+      }
+      var segmentsIn
+      if (quote.InboundLeg){
+        segmentsIn = [quote.InboundLeg].map((segment, index) => {
+        //console.log(segment)
+        if (segment === undefined){
+          console.log("undefined")
+          return {}
+        }
+        let departPlace = _.filter(data.Places, {
+          PlaceId: segment.OriginId
+        })[0];
+
+        let arrivePlace = _.filter(data.Places, {
+          PlaceId: segment.DestinationId
+        })[0];
+
+        let carriers = segment.CarrierIds.map(c => _.filter(data.Carriers, {
+          CarrierId: c
+        })[0].Name);
+        //return data
+        return {
+          group: index + 1,
+          departAirport: {
+            code: departPlace.IataCode,
+            name: departPlace.Name
+          },
+          arriveAirport: {
+            code: arrivePlace.IataCode,
+            name: arrivePlace.Name
+          },
+          departCity: {
+            code: departPlace.CityId,
+            name: departPlace.CityName
+          },
+          arriveCity: {
+            code: arrivePlace.CityId,
+            name: arrivePlace.CityName
+          },
+          departTime: segment.DepartureDate,
+          carriers: carriers
+        };
+      });
+      }
 
       let price = currencyFormatter.format(quote.MinPrice, {code: currency})
 
       return {
-        segments: segments,
+        segmentsIn: segmentsIn,
+        segmentsOut: segmentsOut,
         price: price,
       }
     });
