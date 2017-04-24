@@ -26,11 +26,14 @@
     "facebook-messenger-bot": "0.2.0",
     "http-errors": "^1.5.1",
     "http-status": "^0.2.5",
+    "ioredis": "^2.5.0",
     "joi": "^9.0.4",
     "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.7.7",
     "mongoose-id-validator": "^0.4.1",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "request-promise": "^4.2.0",
+    "currency-formatter": "^1.2.1"
   },
   "devDependencies": {}
 }
