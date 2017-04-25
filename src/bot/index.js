@@ -98,10 +98,10 @@ bot.on('message', async (message) => {
   if (data[0]) {
     await sendMessage("Here is our recommendations: (Type reset to start again)")
     for (var i = 0; i < data.length; i ++){
-      //if (data[i].segmentsIn && data[i].segmentsOut) sendMessage("Roundtrip Ticket\n Airports: ", data[i].segmentsOut.departAirport[1])
-      //else if (data[i].segmentsOut) sendMessage("Departure Ticket\n Airports: ", data[i].segmentsOut[1].name)
-      //else sendMessage("Return Ticket\n Airports: ", data[i].segmentsIn[1].name)
-      let result = `Ticket ${i + 1} :\n${data[i]}`
+      var result
+      if (data[i].segmentsIn && data[i].segmentsOut) result = `Ticket ${i + 1} :\nPrice: ${data[i].price}\nCarrier: ${data[i].price}`
+      else if (data[i].segmentsOut) result = `Ticket ${i + 1} :\nPrice: ${data[i].price}\nCarrier: ${data[i].segmentsOut[0].carriers[0]}`
+      else result = `Ticket ${i + 1} :\nPrice: ${data[i].price}\nCarrier: ${data[i].segmentsIn[0].carriers[0]}`
       sendMessage(result)
     }
     redis.del(to)
