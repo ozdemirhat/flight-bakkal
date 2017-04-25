@@ -50,7 +50,7 @@ bot.on('message', async (message) => {
   if (message.text == 'reset') {
     redis.del(to)
     redis.del(`${to}:waiting`)
-    await sendMessage("Resetting...")
+    await sendMessage("Reset Completed.")
     return
   }
 
@@ -92,8 +92,6 @@ bot.on('message', async (message) => {
 
   redis.del(`${to}:waiting`)
 
-  await sendMessage("Here is a bug, I am uncompleted bot.")
-
   let data = await skyscanner.searchCache('US', 'USD', 'en-US', userData.from, userData.to, userData.departure, userData.arrival)
   console.log(data)
 
@@ -103,13 +101,21 @@ bot.on('message', async (message) => {
       //if (data[i].segmentsIn && data[i].segmentsOut) sendMessage("Roundtrip Ticket\n Airports: ", data[i].segmentsOut.departAirport[1])
       //else if (data[i].segmentsOut) sendMessage("Departure Ticket\n Airports: ", data[i].segmentsOut[1].name)
       //else sendMessage("Return Ticket\n Airports: ", data[i].segmentsIn[1].name)
-      sendMessage("Ticket ", i + 1, ":\n", data[i], "\n**********")
+      let result = `Ticket ${i + 1} :\n${data[i]}`
+      sendMessage(result)
     }
-
+    redis.del(to)
+    redis.del(`${to}:waiting`)
+    return
+  }
+  else {
+    redis.del(to)
+    redis.del(`${to}:waiting`)
+    await sendMessage("We couldn't find a flight for you. Type reset to start again.")
     return
   }
 
-  await sendMessage("We couldn't find a flight for you. Type reset to start again.")
+  await sendMessage("Here is a bug, I am uncompleted bot.")
 
 })
 
