@@ -99,10 +99,10 @@ bot.on('message', async (message) => {
     await sendMessage("Here is our recommendations: (Type reset to start again)")
     for (var i = 0; i < data.length; i ++){
       var result
-      if (data[i].segmentsIn && data[i].segmentsOut) result = `Ticket ${i + 1} :\nPrice: ${data[i].price}\nCarrier: ${data[i].price}`
-      else if (data[i].segmentsOut) result = `Ticket ${i + 1} :\nPrice: ${data[i].price}\nCarrier: ${data[i].segmentsOut[0].carriers[0]}`
-      else result = `Ticket ${i + 1} :\nPrice: ${data[i].price}\nCarrier: ${data[i].segmentsIn[0].carriers[0]}`
-      sendMessage(result)
+      if (data[i].segmentsIn && data[i].segmentsOut) result = `Ticket ${i + 1} : Roundtrip Ticket\nDeparture:\n    Airports: ${data[i].segmentsOut[0].departAirport.name} -> ${data[i].segmentsOut[0].arriveAirport.name}\n    Carrier: ${data[i].segmentsOut[0].carriers[0]}\nReturn:\n    Airports: ${data[i].segmentsIn[0].departAirport.name} -> ${data[i].segmentsIn[0].arriveAirport.name}\n    Carrier: ${data[i].segmentsIn[0].carriers[0]}\nTotal Price: ${data[i].price}`
+      else if (data[i].segmentsOut) result = `Ticket ${i + 1} : Departure Ticket\nAirports: ${data[i].segmentsOut[0].departAirport.name} -> ${data[i].segmentsOut[0].arriveAirport.name}\nCarrier: ${data[i].segmentsOut[0].carriers[0]}\nPrice: ${data[i].price}`
+      else result = `Ticket ${i + 1} : Return Ticket\nAirports: ${data[i].segmentsIn[0].departAirport.name} -> ${data[i].segmentsIn[0].arriveAirport.name}\nCarrier: ${data[i].segmentsIn[0].carriers[0]}\nPrice: ${data[i].price}`
+      await sendMessage(result)
     }
     redis.del(to)
     redis.del(`${to}:waiting`)
