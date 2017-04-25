@@ -68,7 +68,8 @@ bot.on('message', async (message) => {
 
   if (!userData.from) {
     redis.set(`${to}:waiting`, 'from')
-    await sendMessage("Where are you right now or where do you want to fly from? You can reset the the process with just writing 'reset'.")
+    await sendMessage("Welcome to Flight Bakkal!\nYou can find all available flights with given informations.\nPlease do not forget I am a bot and you can reset me anytime by writing 'reset'.\nHave a nice flight! :)")
+    await sendMessage("Where are you right now or where do you want to fly from?")
     return
   }
 
@@ -96,7 +97,7 @@ bot.on('message', async (message) => {
   console.log(data)
 
   if (data[0]) {
-    await sendMessage("Here is our recommendations: (Type reset to start again)")
+    await sendMessage("Here is our recommendations:")
     for (var i = 0; i < data.length; i ++){
       var result
       if (data[i].segmentsIn && data[i].segmentsOut) result = `Ticket ${i + 1} : Roundtrip Ticket\nDeparture:\n    Airports: ${data[i].segmentsOut[0].departAirport.name} -> ${data[i].segmentsOut[0].arriveAirport.name}\n    Carrier: ${data[i].segmentsOut[0].carriers[0]}\nReturn:\n    Airports: ${data[i].segmentsIn[0].departAirport.name} -> ${data[i].segmentsIn[0].arriveAirport.name}\n    Carrier: ${data[i].segmentsIn[0].carriers[0]}\nTotal Price: ${data[i].price}`
@@ -106,16 +107,17 @@ bot.on('message', async (message) => {
     }
     redis.del(to)
     redis.del(`${to}:waiting`)
+    await sendMessage("We have listed all available flights for you, type anything to start again.")
     return
   }
   else {
     redis.del(to)
     redis.del(`${to}:waiting`)
-    await sendMessage("We couldn't find a flight for you. Type reset to start again.")
+    await sendMessage("We couldn't find a flight for you. Type anything to start again.")
     return
   }
 
-  await sendMessage("Here is a bug, I am uncompleted bot.")
+  await sendMessage("Here is a bug, I am uncompleted bot. Please type 'reset' to restart.")
 
 })
 
